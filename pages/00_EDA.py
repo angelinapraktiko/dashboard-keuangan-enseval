@@ -51,7 +51,7 @@ st.divider()
 st.subheader("Informasi Dataset")
 
 jumlah_baris = len(df)
-jumlah_kolom = len(df.columns)
+jumlah_kolom = len(df.columns) - 1  # Tidak menghitung kolom bantuan URUTAN_KUARTAL
 
 periode_awal = (
     str(int(df["TAHUN"].min()))
@@ -65,7 +65,8 @@ periode_akhir = (
     + df.loc[df["TAHUN"].idxmax(), "PERIODE"]
 )
 
-col1, col2, col3 = st.columns(3)
+# Baris pertama: jumlah observasi dan kolom
+col1, col2 = st.columns(2)
 
 with col1:
     st.metric("Jumlah Observasi", jumlah_baris)
@@ -73,15 +74,14 @@ with col1:
 with col2:
     st.metric("Jumlah Kolom", jumlah_kolom)
 
-with col3:
-    st.metric(
-        "Rentang Periode",
-        f"{periode_awal} – {periode_akhir}"
-    )
+# Baris kedua: rentang periode menggunakan lebar penuh
+st.markdown("**Rentang Periode**")
+st.write(f"{periode_awal} – {periode_akhir}")
 
 st.caption(
     "Satu observasi merepresentasikan satu periode kuartalan."
 )
+
 
 # ==========================================
 # 3. STRUKTUR DATASET
